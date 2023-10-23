@@ -4,6 +4,7 @@ from interface import parse_arguments, get_platform
 
 if __name__ == "__main__":
     args, rest = parse_arguments()
+    rest += ["--nostack", "--nosize", "--nohashing"]
     platform, settings = get_platform(args)
     with platform:
         schemes = [s for s in rest if s not in ['--nostack',

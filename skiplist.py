@@ -168,4 +168,5 @@ skip_list = [
     {'scheme': 'picnicl1fs', 'implementation': 'opt', 'estmemory': 43008},
     {'scheme': 'picnic3l1', 'implementation': 'opt-mem', 'estmemory': 51200},
     {'scheme': 'picnic3l1', 'implementation': 'opt', 'estmemory': 106496},
+    {'scheme': 'mayo3', 'implementation': 'ref', 'estmemory': 1000000},
 ]
