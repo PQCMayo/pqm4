@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0 or CC0-1.0
 import argparse
 
 from mupq import mupq
@@ -10,7 +11,7 @@ def parse_arguments():
         "-p",
         "--platform",
         help="The PQM4 platform",
-        choices=["stm32f4discovery", "nucleo-l476rg", "nucleo-l4r5zi", "cw308t-stm32f3", "mps2-an386"],
+        choices=["stm32f4discovery", "nucleo-l476rg", "nucleo-l4r5zi", "cw308t-stm32f3", "cw308t-stm32f415", "mps2-an386"],
         default="stm32f4discovery",
     )
     parser.add_argument(
@@ -27,7 +28,7 @@ def parse_arguments():
         "--no-aio", help="Disable all-in-one compilation", default=False, action="store_true"
     )
     parser.add_argument("-u", "--uart", default="/dev/ttyUSB0", help="Path to UART output")
-    parser.add_argument("-i", "--iterations", default=1, help="Number of iterations for benchmarks")
+    parser.add_argument("-i", "--iterations", type=int, default=1, help="Number of iterations for benchmarks")
     return parser.parse_known_args()
 
 
@@ -39,7 +40,7 @@ def get_platform(args):
     elif args.platform == "nucleo-l4r5zi":
         bin_type = 'hex'
         platform = platforms.OpenOCD("st_nucleo_l4r5.cfg", args.uart)
-    elif args.platform == "cw308t-stm32f3":
+    elif args.platform in ["cw308t-stm32f3", "cw308t-stm32f415"]:
         bin_type = 'hex'
         platform = platforms.ChipWhisperer()
     elif args.platform == 'mps2-an386':
@@ -66,6 +67,7 @@ class M4Settings(mupq.PlatformSettings):
         'stm32f4discovery': 128*1024,
         'nucleo-l476rg': 128*1024,
         'cw308t-stm32f3': 64*1024,
+        'cw308t-stm32f415': 192*1024,
         'mps2-an386': 4096*1024,
         'nucleo-l4r5zi': 640*1024
     }
@@ -88,6 +90,7 @@ class M4Settings(mupq.PlatformSettings):
         self.makeflags = [f"PLATFORM={platform}"]
         self.makeflags += [f"MUPQ_ITERATIONS={iterations}"]
         self.makeflags += optflags[opt]
+        self.iterations = iterations
         if lto:
             self.makeflags += ["LTO=1"]
         else:

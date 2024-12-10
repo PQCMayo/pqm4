@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0 or CC0-1.0
 #include <hal.h>
 #include <randombytes.h>
 #include <sendfn.h>
@@ -124,14 +125,35 @@ static void memory_timing_test(void)
 }
 #endif
 
+#ifndef CLOCK_TEST
+#define CLOCK_TEST CLOCK_BENCHMARK
+#endif
+
+void stacktest(size_t size)
+{
+  volatile uint32_t mem[size] __attribute__((unused));
+  for (unsigned i = 0; i < size; ++i) {
+    mem[i] = 0;
+  }
+}
+
 int main(void)
 {
-  hal_setup(CLOCK_FAST);
+  hal_setup(CLOCK_TEST);
   hal_send_str("Hello world");
   send_unsigned("Stack Size", hal_get_stack_size());
   unsigned rnd;
   randombytes((unsigned char*) &rnd, sizeof(unsigned));
   send_unsigned("Random number", rnd);
+  size_t stack;
+  hal_spraystack();
+  stacktest(100);
+  stack = hal_checkstack();
+  send_unsigned("stackusage1", stack);
+  hal_spraystack();
+  stacktest(200);
+  stack = hal_checkstack();
+  send_unsigned("stackusage2", stack);
 #if defined(SRAM_TIMING_TEST)
   memory_timing_test();
 #endif

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0 or CC0-1.0
 from mupq import mupq
 from interface import parse_arguments, get_platform
 
@@ -9,4 +10,5 @@ if __name__ == "__main__":
     platform, settings = get_platform(args)
     with platform:
         test = mupq.SimpleTest(settings, platform)
-        test.test_all(rest)
+        if test.test_all(rest):
+            sys.exit(1)
