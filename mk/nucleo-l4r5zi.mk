@@ -16,5 +16,6 @@ elf/boardtest-fast.elf: CPPFLAGS+=-DSRAM_TIMING_TEST -DHAS_SRAM2 -DHAS_SRAM3
 elf/boardtest-fast.elf: LDSCRIPT=ldscripts/$(PLATFORM)-ramtest.ld
 
 elf/crypto_sign_mayo3_ref_%.elf: LDSCRIPT=ldscripts/nucleo-l4r5zi_fullram.ld
+elf/crypto_sign_mayo3_m4f_%.elf: LDSCRIPT=ldscripts/nucleo-l4r5zi_fullram.ld
 
 include mk/opencm3.mk
