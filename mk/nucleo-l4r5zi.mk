@@ -3,9 +3,7 @@ DEVICE=stm32l4r5zi
 OPENCM3_TARGET=lib/stm32/l4
 
 EXCLUDED_SCHEMES = \
-	mupq/pqclean/crypto_kem/mceliece% \
-	mupq/crypto_sign/tuov% \
-	mupq/crypto_sign/falcon-1024-tree%
+	mupq/%
 
 DEVICES_DATA := ldscripts/devices.data
 

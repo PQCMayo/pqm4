@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0 or CC0-1.0
 EXCLUDED_SCHEMES = \
-	mupq/crypto_sign/tuov_v/ref%
+	mupq/%
 
 MPS2_DATA_IN_FLASH = 1
 CROSS_PREFIX ?= arm-none-eabi
